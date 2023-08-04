@@ -43,19 +43,19 @@ fn render(a: f32, b: f32) void {
             const z = K2 + cos_a * circle_x * sin_phi + circle_y * sin_a;
             const ooz = 1 / z;
 
-            const xo = @floatToInt(i32, screen_width / 2 + K1 * ooz * x);
-            const yo = @floatToInt(i32, screen_height / 2 - K1 * ooz * y);
+            const xo = @as(i32, @intFromFloat(screen_width / 2 + K1 * ooz * x));
+            const yo = @as(i32, @intFromFloat(screen_height / 2 - K1 * ooz * y));
 
             const L = cos_phi * cos_theta * sin_b - cos_a * cos_theta * sin_phi - sin_a * sin_theta + cos_b * (cos_a * sin_theta - cos_theta * sin_a * sin_phi);
 
             if (L > 0) {
                 if (xo >= 0 and yo >= 0 and xo < screen_width and yo < screen_height) {
-                    const xp = @intCast(usize, xo);
-                    const yp = @intCast(usize, yo);
+                    const xp = @as(usize, @intCast(xo));
+                    const yp = @as(usize, @intCast(yo));
 
                     if (ooz > zbuffer[xp][yp]) {
                         zbuffer[xp][yp] = ooz;
-                        const luminance_index = @floatToInt(usize, L * 8);
+                        const luminance_index = @as(usize, @intFromFloat(L * 8));
                         output[xp][yp] = symbols[luminance_index];
                     }
                 }
